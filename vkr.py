@@ -78,8 +78,7 @@ CFG = {
     "info_types": ("news", "medicine", "add"),
 }
 
-# graph
-
+# graphs and roles
 
 def scale_range(lo_hi_real, n, n_ref, min_floor):
     lo, hi = lo_hi_real
@@ -136,9 +135,7 @@ def build_graph(cfg):
 
     return G
 
-# cascade
-
-
+# cascades
 def edge_prob(G, u, v, info_type, cfg):
     u_role = G.nodes[u]["role"]
     v_role = G.nodes[v]["role"]
@@ -187,7 +184,6 @@ def estimate_spread(G, seeds, info_type, cfg, mc, base_seed):
         total += len(activated)
     return total / mc
 
-# random
 
 
 def random_baseline(G, info_type, k, cfg):
@@ -218,9 +214,7 @@ def random_baseline(G, info_type, k, cfg):
         "roles": avg_roles,
     }
 
-# CELF
-
-
+# greedy-CELF
 def build_candidates(G, cfg):
     topM = [u for u, _ in sorted(G.out_degree(), key=lambda x: x[1], reverse=True)[:cfg["candidate_M"]]]
     important = [u for u in G.nodes() if G.nodes[u]["role"] in (TV, EXPERT, INFLUENCER)]
@@ -259,8 +253,8 @@ def celf_select(G, info_type, k, cfg):
 
     return chosen
 
-# TIM-like
 
+   # TIM-like
 
 def build_reverse_graph(G, info_type, cfg):
     GR = nx.DiGraph()
@@ -355,9 +349,7 @@ def role_degree_stats(G):
         )
 
 
-
-# one graph
-
+   # one graph
 
 def run_one_graph(cfg, graph_seed):
     local_cfg = copy.deepcopy(cfg)
@@ -408,8 +400,6 @@ def run_one_graph(cfg, graph_seed):
 
 
 # many graphs
-
-
 def run_all_graphs(cfg):
     all_results = {info_type: {k: [] for k in cfg["k_list"]} for info_type in cfg["info_types"]}
 
@@ -500,10 +490,9 @@ def show_summary_table(all_results, cfg):
     display(styled)
     return df
 
-# plots
 
 
-def plot_spread_vs_k(all_results, cfg):
+def plot_spread_vs_k(all_results, cfg):  # graphics
     for info_type in cfg["info_types"]:
         plt.figure(figsize=(7, 5))
 
@@ -597,8 +586,6 @@ def plot_ratio_lines(all_results, cfg):
         plt.title(f"{info_type}: Среднее значение отношения algorithm/random")
         plt.legend()
         plt.show()
-
-# main
 
 
 if __name__ == "__main__":
