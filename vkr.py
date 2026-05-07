@@ -208,7 +208,7 @@ def random_baseline(G, info_type, k, cfg):
         role_sum.update(roles)
 
     avg_roles = {}
-    for role in ["Tv", "Friend", "Expert", "Influencer"]:
+    for role in ["Smi", "Friend", "Expert", "Influencer"]:
         avg_roles[role] = role_sum[role] / cfg["random_sets_per_graph"]
 
     return {
